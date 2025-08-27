@@ -10,11 +10,24 @@
         "lint:ts:fix": "npx eslint '**/*.{js,mjs,cjs,ts,jsx,tsx}' --fix",
         "lint:scss": "npx stylelint '**/*.scss'",
         "lint:scss:fix": "npx stylelint '**/*.scss' --fix",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "format:prettier": "prettier --write .",
+        "format:prettier:check": "prettier --check .",
+        "prepare": "husky install"
+    },
+    "lint-staged": {
+        "*.{ts,tsx,js,jsx}": [
+            "npm run lint:ts:fix",
+            "prettier --write"
+        ],
+        "*.scss": [
+            "npm run lint:scss:fix"
+        ]
     },
     "dependencies": {
         "react": "^19.1.1",
-        "react-dom": "^19.1.1"
+        "react-dom": "^19.1.1",
+        "sass": "^1.91.0"
     },
     "devDependencies": {
         "@eslint/js": "^9.33.0",
@@ -33,6 +46,7 @@
         "eslint-plugin-react-refresh": "^0.4.20",
         "eslint-plugin-unused-imports": "^4.2.0",
         "globals": "^16.3.0",
+        "husky": "^9.1.7",
         "prettier": "^3.6.2",
         "stylelint": "^16.23.1",
         "stylelint-config-prettier": "^9.0.5",

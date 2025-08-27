@@ -1,0 +1,39 @@
+name: linting, building
+on:
+    pull_request:
+        branches: [dev]
+
+jobs:
+    pipeline:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [22.x]
+
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: Setup Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Install pnpm
+              uses: pnpm/action-setup@v2
+              with:
+                  version: 10
+
+            - name: Install dependencies
+              run: pnpm install
+
+            - name: Build project
+              run: pnpm run build
+
+            - name: Lint TypeScript
+              run: pnpm run lint:ts
+
+            - name: Lint SCSS
+              run: pnpm run lint:scss
+
+            - name: Check Prettier formatting
+              run: pnpm run format:prettier:check

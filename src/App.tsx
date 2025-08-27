@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import Logo from './assets/logo.png';
 
 const App = () => (
