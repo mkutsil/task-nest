@@ -17,11 +17,11 @@
     },
     "lint-staged": {
         "*.{ts,tsx,js,jsx}": [
-            "npm run lint:ts:fix",
+            "pnpm run lint:ts:fix",
             "prettier --write"
         ],
         "*.scss": [
-            "npm run lint:scss:fix"
+            "pnpm run lint:scss:fix"
         ]
     },
     "dependencies": {
