@@ -1,5 +1,5 @@
 import { SimpleGrid } from '@mantine/core';
-import { Column } from '../../../entities/Column';
+import { Column } from '@/entities/Column';
 
 export const KanbanBoard = () => {
     const column = [

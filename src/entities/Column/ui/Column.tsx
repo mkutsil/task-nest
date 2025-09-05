@@ -1,5 +1,5 @@
 import { Paper, Text, Stack, ScrollArea } from '@mantine/core';
-import { TaskCard } from '../../../entities/Task';
+import { TaskCard } from '@/entities/Task';
 
 interface ColumnProps {
     title: string;
