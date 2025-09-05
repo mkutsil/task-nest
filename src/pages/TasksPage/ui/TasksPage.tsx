@@ -1,5 +1,5 @@
-import { RoutePath } from '../../../shared/config/routeConfig/routeConfig';
-import { KanbanBoard } from '../../../widgets/KanbanBoard';
+import { RoutePath } from '@/shared/config/routeConfig/routeConfig';
+import { KanbanBoard } from '@/widgets/KanbanBoard';
 
 const TasksPage = () => (
     <>
