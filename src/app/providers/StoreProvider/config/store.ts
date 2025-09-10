@@ -1,4 +1,4 @@
-import { counterReducer } from '@/entities/Counter/model/slice/counterSlice';
+import { counterReducer } from '@/entities/Counter';
 import { configureStore } from '@reduxjs/toolkit';
 
 export const store = configureStore({
