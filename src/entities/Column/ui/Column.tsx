@@ -1,14 +1,13 @@
 import { Paper, Text, Stack, ScrollArea } from '@mantine/core';
-import { TaskCard } from '@/entities/Task';
+import { Task, TaskCard } from '@/entities/Task';
 
 interface ColumnProps {
     title: string;
+    tasks: Task[];
 }
 
-const renderTaskCards = () => new Array(10).fill('').map((_, index) => <TaskCard key={index} />);
-
 export const Column = (props: ColumnProps) => {
-    const { title } = props;
+    const { title, tasks } = props;
 
     return (
         <Stack align="center" justify="center" gap="xl">
@@ -24,7 +23,17 @@ export const Column = (props: ColumnProps) => {
                     // withBorder={true}
                 >
                     <Stack align="center" justify="center" gap="md">
-                        {renderTaskCards()}
+                        {tasks.map(task => (
+                            <TaskCard
+                                key={task.id}
+                                id={task.id}
+                                title={task.title}
+                                description={task.description}
+                                status={task.status}
+                                createdAt={task.createdAt}
+                                updatedAt={task.updatedAt}
+                            />
+                        ))}
                     </Stack>
                 </Paper>
             </ScrollArea>
