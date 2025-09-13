@@ -1,4 +1,4 @@
-import { Button, SimpleGrid } from '@mantine/core';
+import { SimpleGrid } from '@mantine/core';
 import { Column } from '@/entities/Column';
 import { useSelector } from 'react-redux';
 import {
@@ -62,10 +62,14 @@ export const KanbanBoard = () => {
 
     return (
         <>
-            <Button onClick={handleCreateTask}>Create task</Button>
             <SimpleGrid cols={{ sm: 1, lg: 3 }} w={'100%'} spacing="xl">
                 {column.map(col => (
-                    <Column title={col.title} key={col.title} tasks={col.tasks} />
+                    <Column
+                        handleCreateTask={handleCreateTask}
+                        title={col.title}
+                        key={col.title}
+                        tasks={col.tasks}
+                    />
                 ))}
             </SimpleGrid>
         </>
