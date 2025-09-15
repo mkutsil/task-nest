@@ -62,7 +62,7 @@ export const KanbanBoard = () => {
 
     return (
         <>
-            <SimpleGrid cols={{ sm: 1, lg: 3 }} w={'100%'} spacing="xl">
+            <SimpleGrid cols={{ sm: 1, lg: 3 }}>
                 {column.map(col => (
                     <Column
                         handleCreateTask={handleCreateTask}

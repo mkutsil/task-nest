@@ -4,10 +4,11 @@ import {
     type AppRoutesProps,
     routerConfig,
 } from '../../../../shared/config/routeConfig/routeConfig';
+import { Loader } from '@mantine/core';
 
 const AppRouter = () => {
     const renderWithWrapper = useCallback((route: AppRoutesProps) => {
-        const element = <Suspense fallback={<h1>Loading...</h1>}>{route.element}</Suspense>;
+        const element = <Suspense fallback={<Loader />}>{route.element}</Suspense>;
 
         return <Route key={route.path} path={route.path} element={element} />;
     }, []);

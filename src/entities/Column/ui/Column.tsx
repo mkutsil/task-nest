@@ -11,23 +11,26 @@ export const Column = (props: ColumnProps) => {
     const { title, tasks, handleCreateTask } = props;
 
     return (
-        <Stack align="center" justify="center" gap="xl">
+        <Stack align="center" gap="xl">
             <Text size="xl" fw={900}>
                 {title}
             </Text>
 
-            <Button
-                onClick={handleCreateTask}
-                justify="center"
-                fullWidth
-                leftSection={<Plus />}
-                variant="default"
-                mt="md"
-            >
-                Add tasks
-            </Button>
+            {title === 'ToDo' && (
+                <Button
+                    onClick={handleCreateTask}
+                    justify="center"
+                    fullWidth
+                    leftSection={<Plus />}
+                    variant="default"
+                    mt="md"
+                >
+                    Add tasks
+                </Button>
+            )}
+
             {!!tasks.length && (
-                <ScrollArea h={{ base: '60vh', lg: '85vh' }} w="100%">
+                <ScrollArea h={{ base: '60vh', lg: '72vh' }} w="100%">
                     <Paper
                         w="max-content"
                         m="auto"
