@@ -1,3 +1,0 @@
-import type { StateSchema } from '@/app/providers/StoreProvider/config/StateSchema';
-
-export const getCounterValue = (state: StateSchema) => state.counter?.value || 0;
