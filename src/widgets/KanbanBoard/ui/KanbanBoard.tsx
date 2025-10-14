@@ -6,14 +6,13 @@ import {
     getInProgressKanbanTasks,
     getDoneKanbanTasks,
 } from '../model/selectors/kanbanBoard';
-import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch/useAppDispatch';
-import { kanbanBoardActions } from '../model/slice/kanbanBoardSlice';
+import modalObserver from '@/shared/lib/observers/modalObserver';
+import { ModalNamesEnum } from '@/shared/enums/modalNames.enum';
 
 export const KanbanBoard = () => {
     const todoTasks = useSelector(getTodoKanbanTasks);
     const inProgressTasks = useSelector(getInProgressKanbanTasks);
     const doneTasks = useSelector(getDoneKanbanTasks);
-    const dispatch = useAppDispatch();
     const column = [
         {
             title: 'ToDo',
@@ -29,35 +28,8 @@ export const KanbanBoard = () => {
         },
     ];
 
-    const mockTasks = [
-        {
-            id: '1',
-            title: 'Task 1',
-            description: 'Description for Task 1',
-            status: 'todo',
-            createdAt: '2023-10-01T10:00:00Z',
-            updatedAt: '2023-10-01T10:00:00Z',
-        },
-        {
-            id: '2',
-            title: 'Task 2',
-            description: 'Description for Task 2',
-            status: 'in-progress',
-            createdAt: '2023-10-02T11:00:00Z',
-            updatedAt: '2023-10-02T11:00:00Z',
-        },
-        {
-            id: '3',
-            title: 'Task 3',
-            description: 'Description for Task 3',
-            status: 'done',
-            createdAt: '2023-10-03T12:00:00Z',
-            updatedAt: '2023-10-03T12:00:00Z',
-        },
-    ];
-
-    const handleCreateTask = () => {
-        dispatch(kanbanBoardActions.setTodoTasks(mockTasks));
+    const handleOpenTaskModal = () => {
+        modalObserver.addModal(ModalNamesEnum.taskModal, { props: {} });
     };
 
     return (
@@ -65,7 +37,7 @@ export const KanbanBoard = () => {
             <SimpleGrid cols={{ sm: 1, lg: 3 }}>
                 {column.map(col => (
                     <Column
-                        handleCreateTask={handleCreateTask}
+                        handleCreateTask={handleOpenTaskModal}
                         title={col.title}
                         key={col.title}
                         tasks={col.tasks}
