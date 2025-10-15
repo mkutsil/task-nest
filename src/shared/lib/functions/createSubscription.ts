@@ -1,6 +1,8 @@
 export interface Subscription<T = void> {
-    unsubscribe(f: (payload: T) => void): void;
-    subscribe(f: (payload: T) => void): () => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    unsubscribe(f: any): any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    subscribe(f: any): any;
     emit(payload: T): void;
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

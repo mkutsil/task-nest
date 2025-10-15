@@ -44,6 +44,7 @@ export const Column = (props: ColumnProps) => {
                                     key={task.id}
                                     id={task.id}
                                     title={task.title}
+                                    subtitle={task.subtitle}
                                     description={task.description}
                                     status={task.status}
                                     createdAt={task.createdAt}
