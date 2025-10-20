@@ -1,3 +1,4 @@
+// TODO: fix eny
 export interface Subscription<T = void> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     unsubscribe(f: any): any;

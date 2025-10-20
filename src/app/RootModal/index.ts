@@ -1,3 +1,3 @@
-import RootModal from './RootModal';
+import RootModal from './ui/RootModal';
 
 export default RootModal;

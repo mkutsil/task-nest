@@ -3,6 +3,7 @@ import modalsMap from '@/shared/lib/functions/modalsMap';
 import modalObserver from '@/shared/lib/observers/modalObserver';
 import { useEffect, useState, memo, Suspense } from 'react';
 
+// TODO: fix any
 const RootModal = () => {
     const [modalsForShow, setModalsForShow] = useState<typeof modalsMap>({} as typeof modalsMap);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
