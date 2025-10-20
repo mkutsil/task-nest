@@ -2,6 +2,7 @@ import { RoutePath } from '@/shared/config/routeConfig/routeConfig';
 import Logo from '@/shared/assets/logo.png';
 import { useMantineColorScheme, ActionIcon, Container } from '@mantine/core';
 import { Sun, Moon } from 'lucide-react';
+import './HomePage.scss';
 
 const HomePage = () => {
     const { colorScheme, toggleColorScheme } = useMantineColorScheme();
