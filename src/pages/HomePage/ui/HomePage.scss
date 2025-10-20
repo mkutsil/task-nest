@@ -1,0 +1,25 @@
+.logo {
+    background-image: linear-gradient(
+        -60deg,
+        #fff0 0%,
+        #fff0 40%,
+        #fff4 40%,
+        #fff4 60%,
+        #fff0 60%,
+        #fff0 100%
+    );
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position-x: 150%;
+    }
+
+    40%,
+    100% {
+        background-position-x: -150%;
+    }
+}
