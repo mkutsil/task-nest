@@ -1,0 +1,12 @@
+$primary-color: #db2c6f;
+
+.error-messages {
+    color: $primary-color;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.input-error {
+    border: $primary-color 1px solid;
+    border-radius: 5px;
+}
