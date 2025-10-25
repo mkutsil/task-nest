@@ -1,9 +1,10 @@
-import { Task } from '@/entities/Task';
+import { Task, TaskStatusEnum } from '@/entities/Task';
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch/useAppDispatch';
 import { kanbanBoardActions } from '@/widgets/KanbanBoard';
-import { Box, Button, Flex, Group, Input, Textarea } from '@mantine/core';
+import { Box, Button, Flex, Group, Input, Select, SelectProps, Textarea } from '@mantine/core';
 import { ErrorMessage, Formik } from 'formik';
 import { useId } from 'react';
+import { Plus, Check } from 'lucide-react';
 import { TaskFormSchema } from './schema';
 import './TaskForm.scss';
 interface TaskFormProps {
@@ -14,6 +15,7 @@ interface TaskFormValueProps {
     title: string;
     subtitle: string;
     description: string;
+    status: TaskStatusEnum;
 }
 
 const now = new Date();
@@ -32,7 +34,7 @@ const TaskForm = (props: TaskFormProps) => {
 
     const dispatch = useAppDispatch();
 
-    const initialValues = { title: '', subtitle: '', description: '' };
+    const initialValues = { title: '', subtitle: '', description: '', status: TaskStatusEnum.TODO };
 
     const handleOnSubmit = (values: TaskFormValueProps) => {
         const newTask: Task = {
@@ -40,7 +42,7 @@ const TaskForm = (props: TaskFormProps) => {
             title: values.title,
             subtitle: values.subtitle,
             description: values.description,
-            status: 'done',
+            status: values.status,
             createdAt: formattedDate,
             updatedAt: '-',
         };
@@ -48,6 +50,28 @@ const TaskForm = (props: TaskFormProps) => {
         dispatch(kanbanBoardActions.setTodoTasks([newTask]));
         handleModalClose();
     };
+
+    // const iconProps = {
+    //     stroke: 1.5,
+    //     color: 'currentColor',
+    //     opacity: 0.6,
+    //     size: 18,
+    // };
+
+    const icons: Record<string, React.ReactNode> = {
+        // left: <Plus {...iconProps} />,
+        center: <Plus />,
+        right: <Plus />,
+        justify: <Plus />,
+    };
+
+    const renderSelectOption: SelectProps['renderOption'] = ({ option, checked }) => (
+        <Group flex="1" gap="xs">
+            {icons[option.value]}
+            {option.label}
+            {checked && <Check style={{ marginInlineStart: 'auto' }} />}
+        </Group>
+    );
 
     return (
         <Formik
@@ -77,6 +101,19 @@ const TaskForm = (props: TaskFormProps) => {
                                 value={values.title}
                             />
                             <ErrorMessage className="error-messages" name="title" component="div" />
+                        </Box>
+                        <Box>
+                            <Select
+                                label="Select with renderOption"
+                                placeholder="Select text align"
+                                data={[
+                                    { value: 'left', label: 'Left' },
+                                    { value: 'center', label: 'Center' },
+                                    { value: 'right', label: 'Right' },
+                                    { value: 'justify', label: 'Justify' },
+                                ]}
+                                renderOption={renderSelectOption}
+                            />
                         </Box>
                         <Box>
                             <Input
