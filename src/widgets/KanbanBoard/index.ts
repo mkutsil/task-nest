@@ -8,4 +8,5 @@ export {
     getTodoKanbanTasks,
     getInProgressKanbanTasks,
     getDoneKanbanTasks,
+    getIsTasks,
 } from './model/selectors/kanbanBoard';

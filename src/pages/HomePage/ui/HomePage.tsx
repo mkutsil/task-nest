@@ -3,6 +3,7 @@ import Logo from '@/shared/assets/logo.png';
 import { useMantineColorScheme, ActionIcon, Container } from '@mantine/core';
 import { Sun, Moon } from 'lucide-react';
 import './HomePage.scss';
+import { Link } from 'react-router';
 
 const HomePage = () => {
     const { colorScheme, toggleColorScheme } = useMantineColorScheme();
@@ -11,9 +12,9 @@ const HomePage = () => {
     return (
         <Container w="100%" maw={1200}>
             <h1>TaskNest</h1>
-            <a href={RoutePath.tasks}>
+            <Link to={RoutePath.tasks}>
                 <img src={Logo} className="logo" alt="TaskNest logo" />
-            </a>
+            </Link>
             <p>TaskNest — Nest your tasks, boost your productivity.</p>
             <ActionIcon
                 onClick={() => toggleColorScheme()}
