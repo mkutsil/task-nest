@@ -2,6 +2,7 @@ import TaskForm from '@/features/TaskForm/TaskForm';
 import { ModalNamesEnum } from '@/shared/enums/modalNames.enum';
 import modalObserver, { ModalProps } from '@/shared/lib/observers/modalObserver';
 import { Modal } from '@mantine/core';
+import { Task } from '../../model/types/task';
 
 const TaskModal = ({ isOpen = false, props }: ModalProps) => {
     const handleModalClose = () => {
@@ -18,7 +19,7 @@ const TaskModal = ({ isOpen = false, props }: ModalProps) => {
             centered
             {...props}
         >
-            <TaskForm handleModalClose={handleModalClose} />
+            <TaskForm taskProps={props as Task} handleModalClose={handleModalClose} />
         </Modal>
     );
 };

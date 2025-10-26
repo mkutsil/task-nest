@@ -4,11 +4,24 @@ import { CalendarDays } from 'lucide-react';
 
 // TODO: fix ineClamp issue
 
-export const TaskCard = (props: Task) => {
-    const { id, title, subtitle, description, status, createdAt, updatedAt } = props;
+interface TaskCardProps extends Task {
+    onTaskCardClick: () => void;
+}
+
+export const TaskCard = (props: TaskCardProps) => {
+    const { id, title, subtitle, description, status, createdAt, updatedAt, onTaskCardClick } =
+        props;
 
     return (
-        <Card style={{ width: 300 }} shadow="sm" padding="lg" radius="md" withBorder key={id}>
+        <Card
+            onClick={onTaskCardClick}
+            style={{ width: 300 }}
+            shadow="sm"
+            padding="lg"
+            radius="md"
+            withBorder
+            key={id}
+        >
             <Card.Section>
                 <Text>{title}</Text>
             </Card.Section>
