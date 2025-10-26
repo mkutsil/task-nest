@@ -4,11 +4,12 @@ import { kanbanBoardActions } from '@/widgets/KanbanBoard';
 import { Box, Button, Flex, Group, Input, Select, SelectProps, Textarea } from '@mantine/core';
 import { ErrorMessage, Formik } from 'formik';
 import { useId } from 'react';
-import { Plus, Check } from 'lucide-react';
+import { Check, CircleCheck } from 'lucide-react';
 import { TaskFormSchema } from './schema';
 import './TaskForm.scss';
 interface TaskFormProps {
     handleModalClose: () => void;
+    taskProps?: Task;
 }
 
 interface TaskFormValueProps {
@@ -28,13 +29,18 @@ const formattedDate = now.toLocaleString('uk-UA', {
 });
 
 const TaskForm = (props: TaskFormProps) => {
-    const { handleModalClose } = props;
+    const { handleModalClose, taskProps } = props;
 
     const taskId = useId();
 
     const dispatch = useAppDispatch();
 
-    const initialValues = { title: '', subtitle: '', description: '', status: TaskStatusEnum.TODO };
+    const initialValues = {
+        title: taskProps?.title || '',
+        subtitle: taskProps?.subtitle || '',
+        description: taskProps?.description || '',
+        status: (taskProps?.status as TaskStatusEnum) || TaskStatusEnum.TODO,
+    };
 
     const handleOnSubmit = (values: TaskFormValueProps) => {
         const newTask: Task = {
@@ -47,22 +53,26 @@ const TaskForm = (props: TaskFormProps) => {
             updatedAt: '-',
         };
 
-        dispatch(kanbanBoardActions.setTodoTasks([newTask]));
+        switch (values.status) {
+            case TaskStatusEnum.TODO:
+                dispatch(kanbanBoardActions.setTodoTasks(newTask));
+                break;
+            case TaskStatusEnum.IN_PROGRESS:
+                dispatch(kanbanBoardActions.setInProgressTasks(newTask));
+                break;
+            case TaskStatusEnum.DONE:
+                dispatch(kanbanBoardActions.setDoneTasks(newTask));
+                break;
+            default:
+                break;
+        }
         handleModalClose();
     };
 
-    // const iconProps = {
-    //     stroke: 1.5,
-    //     color: 'currentColor',
-    //     opacity: 0.6,
-    //     size: 18,
-    // };
-
     const icons: Record<string, React.ReactNode> = {
-        // left: <Plus {...iconProps} />,
-        center: <Plus />,
-        right: <Plus />,
-        justify: <Plus />,
+        todo: <CircleCheck />,
+        'in-progress': <CircleCheck color="yellow" />,
+        done: <CircleCheck color="green" />,
     };
 
     const renderSelectOption: SelectProps['renderOption'] = ({ option, checked }) => (
@@ -87,6 +97,7 @@ const TaskForm = (props: TaskFormProps) => {
                 handleBlur,
                 handleSubmit,
                 isSubmitting,
+                setFieldValue,
             }) => (
                 <form onSubmit={handleSubmit} noValidate>
                     <Flex gap="lg" direction="column">
@@ -104,15 +115,17 @@ const TaskForm = (props: TaskFormProps) => {
                         </Box>
                         <Box>
                             <Select
+                                name="status"
+                                value={values.status}
                                 label="Select with renderOption"
                                 placeholder="Select text align"
                                 data={[
-                                    { value: 'left', label: 'Left' },
-                                    { value: 'center', label: 'Center' },
-                                    { value: 'right', label: 'Right' },
-                                    { value: 'justify', label: 'Justify' },
+                                    { value: TaskStatusEnum.TODO, label: 'Todo' },
+                                    { value: TaskStatusEnum.IN_PROGRESS, label: 'In-progress' },
+                                    { value: TaskStatusEnum.DONE, label: 'Done' },
                                 ]}
                                 renderOption={renderSelectOption}
+                                onChange={value => setFieldValue('status', value)}
                             />
                         </Box>
                         <Box>

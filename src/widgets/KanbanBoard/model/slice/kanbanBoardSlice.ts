@@ -12,14 +12,14 @@ export const kanbanBoardSlice = createSlice({
     name: 'kanbanBoard',
     initialState,
     reducers: {
-        setTodoTasks: (state, action: PayloadAction<Task[]>) => {
-            state.todo = [...state.todo, ...action.payload];
+        setTodoTasks: (state, action: PayloadAction<Task>) => {
+            state.todo = [...state.todo, action.payload];
         },
-        setInProgressTasks: (state, action: PayloadAction<Task[]>) => {
-            state.inProgress = action.payload;
+        setInProgressTasks: (state, action: PayloadAction<Task>) => {
+            state.inProgress = [...state.inProgress, action.payload];
         },
-        setDoneTasks: (state, action: PayloadAction<Task[]>) => {
-            state.done = action.payload;
+        setDoneTasks: (state, action: PayloadAction<Task>) => {
+            state.done = [...state.done, action.payload];
         },
     },
 });

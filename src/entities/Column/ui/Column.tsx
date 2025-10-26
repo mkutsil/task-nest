@@ -1,6 +1,8 @@
 import { Paper, Text, Stack, ScrollArea, Button } from '@mantine/core';
 import { Task, TaskCard } from '@/entities/Task';
 import { Plus } from 'lucide-react';
+import modalObserver from '@/shared/lib/observers/modalObserver';
+import { ModalNamesEnum } from '@/shared/enums/modalNames.enum';
 interface ColumnProps {
     title: string;
     tasks: Task[];
@@ -9,6 +11,10 @@ interface ColumnProps {
 
 export const Column = (props: ColumnProps) => {
     const { title, tasks, handleCreateTask } = props;
+
+    const handleOpenTaskModal = (props: Task) => {
+        modalObserver.addModal(ModalNamesEnum.taskModal, { props });
+    };
 
     return (
         <Stack align="center" gap="xl">
@@ -41,6 +47,9 @@ export const Column = (props: ColumnProps) => {
                         <Stack align="center" justify="center" gap="md">
                             {tasks.map(task => (
                                 <TaskCard
+                                    onTaskCardClick={() => {
+                                        handleOpenTaskModal(task);
+                                    }}
                                     key={task.id}
                                     id={task.id}
                                     title={task.title}
