@@ -8,25 +8,30 @@ import {
 } from '../model/selectors/kanbanBoard';
 import modalObserver from '@/shared/lib/observers/modalObserver';
 import { ModalNamesEnum } from '@/shared/enums/modalNames.enum';
+import { useMemo } from 'react';
 
 export const KanbanBoard = () => {
     const todoTasks = useSelector(getTodoKanbanTasks);
     const inProgressTasks = useSelector(getInProgressKanbanTasks);
     const doneTasks = useSelector(getDoneKanbanTasks);
-    const column = [
-        {
-            title: 'ToDo',
-            tasks: todoTasks,
-        },
-        {
-            title: 'In Progress',
-            tasks: inProgressTasks,
-        },
-        {
-            title: 'Done',
-            tasks: doneTasks,
-        },
-    ];
+
+    const column = useMemo(
+        () => [
+            {
+                title: 'ToDo',
+                tasks: todoTasks,
+            },
+            {
+                title: 'In Progress',
+                tasks: inProgressTasks,
+            },
+            {
+                title: 'Done',
+                tasks: doneTasks,
+            },
+        ],
+        [todoTasks, inProgressTasks, doneTasks]
+    );
 
     const handleOpenTaskModal = () => {
         modalObserver.addModal(ModalNamesEnum.taskModal, { props: {} });
