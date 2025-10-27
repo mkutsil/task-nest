@@ -3,23 +3,27 @@ import { KanbanBoardSchema } from '../types/kanbanBoard';
 import { Task } from '@/entities/Task';
 
 const initialState: KanbanBoardSchema = {
-    todo: [],
-    inProgress: [],
-    done: [],
+    tasks: [],
 };
 
+// TODO: Fix editTask reducer logic
 export const kanbanBoardSlice = createSlice({
     name: 'kanbanBoard',
     initialState,
     reducers: {
-        setTodoTasks: (state, action: PayloadAction<Task>) => {
-            state.todo = [...state.todo, action.payload];
+        addTask: (state, action: PayloadAction<Task>) => {
+            state.tasks = [...state.tasks, action.payload];
         },
-        setInProgressTasks: (state, action: PayloadAction<Task>) => {
-            state.inProgress = [...state.inProgress, action.payload];
+
+        editTask: (state, action: PayloadAction<Task>) => {
+            state.tasks = [
+                ...state.tasks.filter(task => task.id === action.payload.id),
+                action.payload,
+            ];
         },
-        setDoneTasks: (state, action: PayloadAction<Task>) => {
-            state.done = [...state.done, action.payload];
+
+        deleteTask: (state, action: PayloadAction<string>) => {
+            state.tasks = state.tasks.filter(task => task.id !== action.payload);
         },
     },
 });

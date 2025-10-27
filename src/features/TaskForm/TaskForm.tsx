@@ -35,6 +35,7 @@ const TaskForm = (props: TaskFormProps) => {
 
     const dispatch = useAppDispatch();
 
+    const isEditMode = taskProps?.id;
     const initialValues = {
         title: taskProps?.title || '',
         subtitle: taskProps?.subtitle || '',
@@ -53,19 +54,12 @@ const TaskForm = (props: TaskFormProps) => {
             updatedAt: '-',
         };
 
-        switch (values.status) {
-            case TaskStatusEnum.TODO:
-                dispatch(kanbanBoardActions.setTodoTasks(newTask));
-                break;
-            case TaskStatusEnum.IN_PROGRESS:
-                dispatch(kanbanBoardActions.setInProgressTasks(newTask));
-                break;
-            case TaskStatusEnum.DONE:
-                dispatch(kanbanBoardActions.setDoneTasks(newTask));
-                break;
-            default:
-                break;
+        if (isEditMode) {
+            dispatch(kanbanBoardActions.editTask(newTask));
+        } else {
+            dispatch(kanbanBoardActions.addTask(newTask));
         }
+
         handleModalClose();
     };
 
@@ -82,6 +76,13 @@ const TaskForm = (props: TaskFormProps) => {
             {checked && <Check style={{ marginInlineStart: 'auto' }} />}
         </Group>
     );
+
+    const handleDeleteTask = () => {
+        if (taskProps?.id) {
+            dispatch(kanbanBoardActions.deleteTask(taskProps.id));
+            handleModalClose();
+        }
+    };
 
     return (
         <Formik
@@ -117,8 +118,8 @@ const TaskForm = (props: TaskFormProps) => {
                             <Select
                                 name="status"
                                 value={values.status}
-                                label="Select with renderOption"
-                                placeholder="Select text align"
+                                label="Select status"
+                                placeholder="Select task status"
                                 data={[
                                     { value: TaskStatusEnum.TODO, label: 'Todo' },
                                     { value: TaskStatusEnum.IN_PROGRESS, label: 'In-progress' },
@@ -165,6 +166,12 @@ const TaskForm = (props: TaskFormProps) => {
                             />
                         </Box>
                         <Group mt="lg" justify="flex-end">
+                            {isEditMode && (
+                                <Button onClick={handleDeleteTask} variant="contained" color="red">
+                                    Delete
+                                </Button>
+                            )}
+
                             <Button onClick={handleModalClose} variant="default">
                                 Cancel
                             </Button>

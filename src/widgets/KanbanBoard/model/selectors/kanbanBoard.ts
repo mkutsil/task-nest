@@ -1,9 +1,18 @@
 import type { StateSchema } from '@/app/providers/StoreProvider/config/StateSchema';
+import { createSelector } from '@reduxjs/toolkit';
 
-export const getTodoKanbanTasks = (state: StateSchema) => state.kanbanBoard?.todo || [];
-export const getInProgressKanbanTasks = (state: StateSchema) => state.kanbanBoard?.inProgress || [];
-export const getDoneKanbanTasks = (state: StateSchema) => state.kanbanBoard?.done || [];
-export const getIsTasks = (state: StateSchema) =>
-    !!state.kanbanBoard?.done.length ||
-    !!state.kanbanBoard?.inProgress.length ||
-    !!state.kanbanBoard?.todo.length;
+const selectTasks = (state: StateSchema) => state.kanbanBoard.tasks;
+
+export const getTodoKanbanTasks = createSelector([selectTasks], tasks =>
+    tasks.filter(task => task.status === 'todo')
+);
+
+export const getInProgressKanbanTasks = createSelector([selectTasks], tasks =>
+    tasks.filter(task => task.status === 'in-progress')
+);
+
+export const getDoneKanbanTasks = createSelector([selectTasks], tasks =>
+    tasks.filter(task => task.status === 'done')
+);
+
+export const getIsTasks = (state: StateSchema) => state.kanbanBoard?.tasks.length > 0;
