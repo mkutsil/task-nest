@@ -6,8 +6,6 @@ import {
     getInProgressKanbanTasks,
     getDoneKanbanTasks,
 } from '../model/selectors/kanbanBoard';
-import modalObserver from '@/shared/lib/observers/modalObserver';
-import { ModalNamesEnum } from '@/shared/enums/modalNames.enum';
 import { useMemo } from 'react';
 
 export const KanbanBoard = () => {
@@ -33,20 +31,11 @@ export const KanbanBoard = () => {
         [todoTasks, inProgressTasks, doneTasks]
     );
 
-    const handleOpenTaskModal = () => {
-        modalObserver.addModal(ModalNamesEnum.taskModal, { props: {} });
-    };
-
     return (
         <>
             <SimpleGrid cols={{ sm: 1, lg: 3 }}>
                 {column.map(col => (
-                    <Column
-                        handleCreateTask={handleOpenTaskModal}
-                        title={col.title}
-                        key={col.title}
-                        tasks={col.tasks}
-                    />
+                    <Column title={col.title} key={col.title} tasks={col.tasks} />
                 ))}
             </SimpleGrid>
         </>

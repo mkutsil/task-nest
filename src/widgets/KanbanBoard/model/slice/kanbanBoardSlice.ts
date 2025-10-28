@@ -6,7 +6,6 @@ const initialState: KanbanBoardSchema = {
     tasks: [],
 };
 
-// TODO: Fix editTask reducer logic
 export const kanbanBoardSlice = createSlice({
     name: 'kanbanBoard',
     initialState,
@@ -16,10 +15,9 @@ export const kanbanBoardSlice = createSlice({
         },
 
         editTask: (state, action: PayloadAction<Task>) => {
-            state.tasks = [
-                ...state.tasks.filter(task => task.id === action.payload.id),
-                action.payload,
-            ];
+            state.tasks = state.tasks.map(task =>
+                task.id === action.payload.id ? action.payload : task
+            );
         },
 
         deleteTask: (state, action: PayloadAction<string>) => {
