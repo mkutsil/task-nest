@@ -1,7 +1,7 @@
 import { Card, Text, Badge, Group, Box, Divider, Avatar } from '@mantine/core';
 import { Task } from '../model/types/task';
 import { CalendarDays } from 'lucide-react';
-
+import './TaskCard.scss';
 // TODO: fix ineClamp issue
 
 interface TaskCardProps extends Task {
@@ -14,6 +14,7 @@ export const TaskCard = (props: TaskCardProps) => {
 
     return (
         <Card
+            className="task-card"
             onClick={onTaskCardClick}
             style={{ width: 300 }}
             shadow="sm"

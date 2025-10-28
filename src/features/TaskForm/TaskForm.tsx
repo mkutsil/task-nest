@@ -31,11 +31,13 @@ const formattedDate = now.toLocaleString('uk-UA', {
 const TaskForm = (props: TaskFormProps) => {
     const { handleModalClose, taskProps } = props;
 
-    const taskId = useId();
-
     const dispatch = useAppDispatch();
 
+    const newTaskId = useId();
     const isEditMode = taskProps?.id;
+
+    const taskId = isEditMode ? taskProps?.id : newTaskId;
+
     const initialValues = {
         title: taskProps?.title || '',
         subtitle: taskProps?.subtitle || '',

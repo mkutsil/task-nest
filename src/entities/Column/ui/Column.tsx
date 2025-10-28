@@ -1,16 +1,14 @@
-import { Paper, Text, Stack, ScrollArea, Button } from '@mantine/core';
+import { Paper, Text, Stack, ScrollArea } from '@mantine/core';
 import { Task, TaskCard } from '@/entities/Task';
-import { Plus } from 'lucide-react';
 import modalObserver from '@/shared/lib/observers/modalObserver';
 import { ModalNamesEnum } from '@/shared/enums/modalNames.enum';
 interface ColumnProps {
     title: string;
     tasks: Task[];
-    handleCreateTask: () => void;
 }
 
 export const Column = (props: ColumnProps) => {
-    const { title, tasks, handleCreateTask } = props;
+    const { title, tasks } = props;
 
     const handleOpenTaskModal = (props: Task) => {
         modalObserver.addModal(ModalNamesEnum.taskModal, { props });
@@ -21,19 +19,6 @@ export const Column = (props: ColumnProps) => {
             <Text size="xl" fw={900}>
                 {title}
             </Text>
-
-            {title === 'ToDo' && (
-                <Button
-                    onClick={handleCreateTask}
-                    justify="center"
-                    fullWidth
-                    leftSection={<Plus />}
-                    variant="default"
-                    mt="md"
-                >
-                    Add tasks
-                </Button>
-            )}
 
             {!!tasks.length && (
                 <ScrollArea h={{ base: '60vh', lg: '72vh' }} w="100%">
