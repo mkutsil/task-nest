@@ -7,12 +7,15 @@ import {
     getDoneKanbanTasks,
 } from '../model/selectors/kanbanBoard';
 import { useMemo } from 'react';
+import { DndContext } from '@dnd-kit/core';
 
 export const KanbanBoard = () => {
     const todoTasks = useSelector(getTodoKanbanTasks);
     const inProgressTasks = useSelector(getInProgressKanbanTasks);
     const doneTasks = useSelector(getDoneKanbanTasks);
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const handleDragEnd = (event: any) => event;
+    // console.log('Drag ended', event);
     const column = useMemo(
         () => [
             {
@@ -32,12 +35,12 @@ export const KanbanBoard = () => {
     );
 
     return (
-        <>
+        <DndContext onDragEnd={handleDragEnd}>
             <SimpleGrid cols={{ sm: 1, lg: 3 }}>
-                {column.map(col => (
-                    <Column title={col.title} key={col.title} tasks={col.tasks} />
+                {column.map((col, id) => (
+                    <Column id={id} title={col.title} key={col.title} tasks={col.tasks} />
                 ))}
             </SimpleGrid>
-        </>
+        </DndContext>
     );
 };

@@ -2,14 +2,19 @@ import { Paper, Text, Stack, ScrollArea } from '@mantine/core';
 import { Task, TaskCard } from '@/entities/Task';
 import modalObserver from '@/shared/lib/observers/modalObserver';
 import { ModalNamesEnum } from '@/shared/enums/modalNames.enum';
+import { useDroppable } from '@dnd-kit/core';
 interface ColumnProps {
+    id: number;
     title: string;
     tasks: Task[];
 }
 
 export const Column = (props: ColumnProps) => {
-    const { title, tasks } = props;
+    const { id, title, tasks } = props;
 
+    const { setNodeRef, isOver } = useDroppable({
+        id: `column-${id}`,
+    });
     const handleOpenTaskModal = (props: Task) => {
         modalObserver.addModal(ModalNamesEnum.taskModal, { props });
     };
@@ -29,7 +34,16 @@ export const Column = (props: ColumnProps) => {
                         p={{ base: 'xs', lg: 'xl' }}
                         // withBorder={true}
                     >
-                        <Stack align="center" justify="center" gap="md">
+                        <Stack
+                            ref={setNodeRef}
+                            style={{
+                                backgroundColor: isOver ? 'lightgray' : 'transparent',
+                                padding: 10,
+                            }}
+                            align="center"
+                            justify="center"
+                            gap="md"
+                        >
                             {tasks.map(task => (
                                 <TaskCard
                                     onTaskCardClick={() => {
