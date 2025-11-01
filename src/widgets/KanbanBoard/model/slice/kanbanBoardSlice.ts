@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { KanbanBoardSchema } from '../types/kanbanBoard';
-import { Task } from '@/entities/Task';
+import { Task, TaskStatusEnum } from '@/entities/Task';
 
 const initialState: KanbanBoardSchema = {
     tasks: [],
@@ -17,6 +17,15 @@ export const kanbanBoardSlice = createSlice({
         editTask: (state, action: PayloadAction<Task>) => {
             state.tasks = state.tasks.map(task =>
                 task.id === action.payload.id ? action.payload : task
+            );
+        },
+
+        changeTaskStatus: (
+            state,
+            action: PayloadAction<{ id: string; status: TaskStatusEnum }>
+        ) => {
+            state.tasks = state.tasks.map(task =>
+                task.id === action.payload.id ? { ...task, status: action.payload.status } : task
             );
         },
 

@@ -2,31 +2,18 @@ import { Card, Text, Badge, Group, Box, Divider, Avatar } from '@mantine/core';
 import { Task } from '../model/types/task';
 import { CalendarDays } from 'lucide-react';
 import './TaskCard.scss';
-import { useDraggable } from '@dnd-kit/core';
 // TODO: fix ineClamp issue
 
 interface TaskCardProps extends Task {
-    onTaskCardClick: () => void;
+    style?: React.CSSProperties;
 }
 
 export const TaskCard = (props: TaskCardProps) => {
-    const { id, title, subtitle, description, status, createdAt, updatedAt, onTaskCardClick } =
-        props;
-    const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
-
+    const { id, title, subtitle, description, status, createdAt, updatedAt, style } = props;
     return (
         <Card
-            ref={setNodeRef}
-            {...listeners}
-            {...attributes}
-            style={{
-                transform: transform
-                    ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
-                    : undefined,
-                width: 300,
-            }}
+            style={{ ...style, width: 300 }}
             className="task-card"
-            onClick={onTaskCardClick}
             shadow="sm"
             padding="lg"
             radius="md"

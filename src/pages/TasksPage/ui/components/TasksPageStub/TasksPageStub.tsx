@@ -1,7 +1,6 @@
 import { RoutePath } from '@/shared/config/routeConfig/routeConfig';
 import { Box } from '@mantine/core';
 import { Link } from 'react-router';
-import { DNDContainer } from './DNDContainer';
 interface TasksPageStubProps {
     onButtonClick: () => void;
 }
@@ -15,7 +14,6 @@ const TasksPageStub = (props: TasksPageStubProps) => {
                 <h1>TaskNest</h1>
             </Link>
             <h1 onClick={onButtonClick}>Need to create task</h1>
-            <DNDContainer />
         </Box>
     );
 };
