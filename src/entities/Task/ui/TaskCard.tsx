@@ -5,18 +5,15 @@ import './TaskCard.scss';
 // TODO: fix ineClamp issue
 
 interface TaskCardProps extends Task {
-    onTaskCardClick: () => void;
+    style?: React.CSSProperties;
 }
 
 export const TaskCard = (props: TaskCardProps) => {
-    const { id, title, subtitle, description, status, createdAt, updatedAt, onTaskCardClick } =
-        props;
-
+    const { id, title, subtitle, description, status, createdAt, updatedAt, style } = props;
     return (
         <Card
+            style={{ ...style, width: 300 }}
             className="task-card"
-            onClick={onTaskCardClick}
-            style={{ width: 300 }}
             shadow="sm"
             padding="lg"
             radius="md"

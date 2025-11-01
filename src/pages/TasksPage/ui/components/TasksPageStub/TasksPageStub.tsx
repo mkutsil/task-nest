@@ -1,7 +1,6 @@
 import { RoutePath } from '@/shared/config/routeConfig/routeConfig';
 import { Box } from '@mantine/core';
 import { Link } from 'react-router';
-
 interface TasksPageStubProps {
     onButtonClick: () => void;
 }
