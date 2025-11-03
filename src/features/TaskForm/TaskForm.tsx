@@ -1,12 +1,23 @@
 import { Task, TaskStatusEnum } from '@/entities/Task';
 import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch/useAppDispatch';
 import { kanbanBoardActions } from '@/widgets/KanbanBoard';
-import { Box, Button, Flex, Group, Input, Select, SelectProps, Textarea } from '@mantine/core';
+import {
+    Box,
+    Button,
+    Flex,
+    Group,
+    Input,
+    Select,
+    SelectProps,
+    Textarea,
+    useMantineTheme,
+} from '@mantine/core';
 import { ErrorMessage, Formik } from 'formik';
 import { useId } from 'react';
 import { Check, CircleCheck } from 'lucide-react';
 import { TaskFormSchema } from './schema';
 import './TaskForm.scss';
+import { getTaskStatusColor } from '@/shared/config/taskStatusColors';
 interface TaskFormProps {
     handleModalClose: () => void;
     taskProps?: Task;
@@ -32,17 +43,19 @@ const TaskForm = (props: TaskFormProps) => {
     const { handleModalClose, taskProps } = props;
 
     const dispatch = useAppDispatch();
-
+    const theme = useMantineTheme();
     const newTaskId = useId();
     const isEditMode = taskProps?.id;
 
     const taskId = isEditMode ? taskProps?.id : newTaskId;
 
+    const taskStatusColor = getTaskStatusColor(theme);
+
     const initialValues = {
         title: taskProps?.title || '',
         subtitle: taskProps?.subtitle || '',
         description: taskProps?.description || '',
-        status: (taskProps?.status as TaskStatusEnum) || TaskStatusEnum.TODO,
+        status: taskProps?.status || TaskStatusEnum.TODO,
     };
 
     const handleOnSubmit = (values: TaskFormValueProps) => {
@@ -66,9 +79,9 @@ const TaskForm = (props: TaskFormProps) => {
     };
 
     const icons: Record<string, React.ReactNode> = {
-        todo: <CircleCheck />,
-        'in-progress': <CircleCheck color="yellow" />,
-        done: <CircleCheck color="green" />,
+        todo: <CircleCheck color={taskStatusColor[TaskStatusEnum.TODO]} />,
+        'in-progress': <CircleCheck color={taskStatusColor[TaskStatusEnum.IN_PROGRESS]} />,
+        done: <CircleCheck color={taskStatusColor[TaskStatusEnum.DONE]} />,
     };
 
     const renderSelectOption: SelectProps['renderOption'] = ({ option, checked }) => (
