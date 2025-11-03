@@ -44,16 +44,19 @@ export const KanbanBoard = () => {
         () => [
             {
                 id: TaskStatusEnum.TODO,
+                taskStatus: TaskStatusEnum.TODO,
                 title: 'ToDo',
                 tasks: todoTasks,
             },
             {
                 id: TaskStatusEnum.IN_PROGRESS,
+                taskStatus: TaskStatusEnum.IN_PROGRESS,
                 title: 'In Progress',
                 tasks: inProgressTasks,
             },
             {
                 id: TaskStatusEnum.DONE,
+                taskStatus: TaskStatusEnum.DONE,
                 title: 'Done',
                 tasks: doneTasks,
             },
@@ -65,7 +68,13 @@ export const KanbanBoard = () => {
         <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
             <SimpleGrid cols={{ sm: 1, lg: 3 }}>
                 {column.map(col => (
-                    <Column id={col.id} title={col.title} key={col.title} tasks={col.tasks} />
+                    <Column
+                        id={col.id}
+                        title={col.title}
+                        taskStatus={col.taskStatus}
+                        key={col.title}
+                        tasks={col.tasks}
+                    />
                 ))}
             </SimpleGrid>
 

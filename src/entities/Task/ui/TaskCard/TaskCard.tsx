@@ -1,7 +1,8 @@
-import { Card, Text, Badge, Group, Box, Divider, Avatar } from '@mantine/core';
-import { Task } from '../model/types/task';
+import { Card, Text, Badge, Group, Box, Divider, Avatar, useMantineTheme } from '@mantine/core';
+import { Task } from '../../model/types/task';
 import { CalendarDays } from 'lucide-react';
 import './TaskCard.scss';
+import { getTaskStatusColor } from '@/shared/config/taskStatusColors';
 // TODO: fix ineClamp issue
 
 interface TaskCardProps extends Task {
@@ -10,9 +11,13 @@ interface TaskCardProps extends Task {
 
 export const TaskCard = (props: TaskCardProps) => {
     const { id, title, subtitle, description, status, createdAt, updatedAt, style } = props;
+    const theme = useMantineTheme();
+
+    const taskStatusColor = getTaskStatusColor(theme)[status];
+
     return (
         <Card
-            style={{ ...style, width: 300 }}
+            style={{ ...style, width: 300, borderColor: taskStatusColor, borderWidth: 1 }}
             className="task-card"
             shadow="sm"
             padding="lg"
@@ -47,7 +52,7 @@ export const TaskCard = (props: TaskCardProps) => {
 
             <Group justify="space-between" mt="md" mb="xs">
                 <Text fw={500}>{subtitle}</Text>
-                <Badge color="pink">{status}</Badge>
+                <Badge color={taskStatusColor}>{status}</Badge>
             </Group>
 
             <Text
