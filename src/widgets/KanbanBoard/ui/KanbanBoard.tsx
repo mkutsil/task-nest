@@ -12,6 +12,7 @@ import { DndContext, DragOverlay } from '@dnd-kit/core';
 import { TaskStatusEnum } from '@/entities/Task';
 import { kanbanBoardActions } from '../model/slice/kanbanBoardSlice';
 import { DraggableTaskOverlay } from '@/features/taskDnd';
+import { useConfetti } from '@/shared/lib/hooks/useConfetti/useConfetti';
 
 // TODO: fix any
 
@@ -22,7 +23,7 @@ export const KanbanBoard = () => {
     const inProgressTasks = useSelector(getInProgressKanbanTasks);
     const doneTasks = useSelector(getDoneKanbanTasks);
     const activeTask = useSelector(selectTaskById(activeTaskId));
-
+    const triggerConfetti = useConfetti();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function handleDragStart(event: any) {
         const { active } = event;
@@ -39,6 +40,9 @@ export const KanbanBoard = () => {
                 status: over.id,
             })
         );
+        if (over.id === TaskStatusEnum.DONE) {
+            triggerConfetti();
+        }
     };
     const column = useMemo(
         () => [
