@@ -1,4 +1,4 @@
-import { Paper, Text, Stack, ScrollArea, useMantineTheme } from '@mantine/core';
+import { Paper, Text, Stack, ScrollArea, useMantineTheme, rgba } from '@mantine/core';
 import { Task, TaskStatusEnum } from '@/entities/Task';
 import modalObserver from '@/shared/lib/observers/modalObserver';
 import { ModalNamesEnum } from '@/shared/enums/modalNames.enum';
@@ -27,22 +27,22 @@ export const Column = (props: ColumnProps) => {
     const taskStatusColor = getTaskStatusColor(theme)[taskStatus];
 
     return (
-        <Stack align="center" gap="xl" ref={setNodeRef}>
+        <Stack align="center" gap="xl" ref={setNodeRef} id={id}>
             <Text size="xl" fw={900} color={taskStatusColor}>
                 {title}
             </Text>
 
-            {!!tasks.length && (
-                <ScrollArea h={{ base: '60vh', lg: '82vh' }} w="100%">
-                    <Paper
-                        w="max-content"
-                        h="100%"
-                        m="auto"
-                        shadow="xs"
-                        p={{ base: 'xs', lg: 'xl' }}
-                    >
-                        <Stack align="center" justify="center" gap="md">
-                            {tasks.map(task => (
+            <ScrollArea h={{ base: '60vh', lg: '82vh' }} w="100%">
+                <Paper
+                    style={{ maxWidth: '320px', minHeight: '100%' }}
+                    m="auto"
+                    shadow="xs"
+                    p="lg"
+                    bg={rgba(theme.colors.gray[5], 0.1)}
+                >
+                    <Stack align="center" justify="center" gap="md">
+                        {!!tasks.length &&
+                            tasks.map(task => (
                                 <DraggableTaskCard
                                     onTaskCardClick={() => {
                                         handleOpenTaskModal(task);
@@ -57,10 +57,9 @@ export const Column = (props: ColumnProps) => {
                                     updatedAt={task.updatedAt}
                                 />
                             ))}
-                        </Stack>
-                    </Paper>
-                </ScrollArea>
-            )}
+                    </Stack>
+                </Paper>
+            </ScrollArea>
         </Stack>
     );
 };

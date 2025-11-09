@@ -5,9 +5,11 @@ import { AppRouter } from './providers/router';
 import { ThemeProvider } from './providers/ThemeProvider';
 import RootModal from './RootModal';
 import { HotkeyProvider } from './providers/HotkeyProvider/HotkeyProvider';
+import { Header } from '@/widgets/Header';
 
 const App = () => (
     <ThemeProvider>
+        <Header />
         <AppRouter />
         <HotkeyProvider />
         <RootModal />
