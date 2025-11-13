@@ -1,40 +1,25 @@
-import { getIsTasks, KanbanBoard, kanbanBoardActions } from '@/widgets/KanbanBoard';
+import { KanbanBoard } from '@/widgets/KanbanBoard';
 import TasksPageStub from './components/TasksPageStub/TasksPageStub';
-import { useDispatch, useSelector } from 'react-redux';
 import modalObserver from '@/shared/lib/observers/modalObserver';
 import { ModalNamesEnum } from '@/shared/enums/modalNames.enum';
 import { Button, Box } from '@mantine/core';
 import { Plus } from 'lucide-react';
 import './TaskPage.scss';
-import { firestoreApi } from '@/app/firebase/firestore';
-import { useEffect } from 'react';
+import { useTasksQuery } from '@/entities/Task/api/useTasksQuery';
 
 const TasksPage = () => {
-    const dispatch = useDispatch();
-    const isTasks = useSelector(getIsTasks);
     const handleOpenTaskModal = () => {
         modalObserver.addModal(ModalNamesEnum.taskModal, { props: {} });
     };
 
-    async function testFirebase() {
-        // await firestoreApi.addTask({
-        //     title: 'First Firebase Task 🎯',
-        //     status: 'todo',
-        //     createdAt: Date.now(),
-        // });
+    const { data: tasks, isLoading, error } = useTasksQuery();
 
-        const tasks = await firestoreApi.fetchTasks();
-
-        dispatch(kanbanBoardActions.getTasks(tasks));
-    }
-
-    useEffect(() => {
-        testFirebase();
-    }, []); // Empty dependency array to run only once on mount
+    if (isLoading) return <div>Loading tasks...</div>;
+    if (error) return <div>Failed to load tasks</div>;
 
     return (
         <>
-            {isTasks ? (
+            {tasks?.length ? (
                 <>
                     <Box className="header-page-container ">
                         <Button
@@ -46,7 +31,7 @@ const TasksPage = () => {
                             Add tasks
                         </Button>
                     </Box>
-                    <KanbanBoard />
+                    <KanbanBoard tasks={tasks} />
                 </>
             ) : (
                 <TasksPageStub onButtonClick={handleOpenTaskModal} />

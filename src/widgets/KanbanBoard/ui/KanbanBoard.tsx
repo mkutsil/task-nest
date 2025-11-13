@@ -1,27 +1,31 @@
 import { SimpleGrid } from '@mantine/core';
 import { Column } from '@/entities/Column';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    getTodoKanbanTasks,
-    getInProgressKanbanTasks,
-    getDoneKanbanTasks,
-    selectTaskById,
-} from '../model/selectors/kanbanBoard';
+import { selectTaskById } from '../model/selectors/kanbanBoard';
 import { useMemo, useState } from 'react';
 import { DndContext, DragOverlay } from '@dnd-kit/core';
-import { TaskStatusEnum } from '@/entities/Task';
+import { Task, TaskStatusEnum } from '@/entities/Task';
 import { kanbanBoardActions } from '../model/slice/kanbanBoardSlice';
 import { DraggableTaskOverlay } from '@/features/taskDnd';
 import { useConfetti } from '@/shared/lib/hooks/useConfetti/useConfetti';
 
 // TODO: fix any
 
-export const KanbanBoard = () => {
+interface KanbanBoardProps {
+    tasks: Task[];
+}
+
+export const KanbanBoard = (props: KanbanBoardProps) => {
+    const { tasks } = props;
     const dispatch = useDispatch();
     const [activeTaskId, setActiveTaskId] = useState(null);
-    const todoTasks = useSelector(getTodoKanbanTasks);
-    const inProgressTasks = useSelector(getInProgressKanbanTasks);
-    const doneTasks = useSelector(getDoneKanbanTasks);
+    // const todoTasks = useSelector(getTodoKanbanTasks);
+    const todoTasks = tasks.filter(task => task.status === TaskStatusEnum.TODO);
+    const inProgressTasks = tasks.filter(task => task.status === TaskStatusEnum.IN_PROGRESS);
+    const doneTasks = tasks.filter(task => task.status === TaskStatusEnum.DONE);
+
+    // const inProgressTasks = useSelector(getInProgressKanbanTasks);
+    // const doneTasks = useSelector(getDoneKanbanTasks);
     const activeTask = useSelector(selectTaskById(activeTaskId));
     const triggerConfetti = useConfetti();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
