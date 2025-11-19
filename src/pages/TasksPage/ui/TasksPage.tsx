@@ -5,17 +5,17 @@ import { ModalNamesEnum } from '@/shared/enums/modalNames.enum';
 import { Button, Box } from '@mantine/core';
 import { Plus } from 'lucide-react';
 import './TaskPage.scss';
-import { useTasksQuery } from '@/entities/Task/api/useTasksQuery';
+import { useTasksRealtime } from '@/entities/Task/api/useTasksRealtime';
 
 const TasksPage = () => {
     const handleOpenTaskModal = () => {
         modalObserver.addModal(ModalNamesEnum.taskModal, { props: {} });
     };
 
-    const { data: tasks, isLoading, error } = useTasksQuery();
+    const { data: tasks } = useTasksRealtime();
 
-    if (isLoading) return <div>Loading tasks...</div>;
-    if (error) return <div>Failed to load tasks</div>;
+    // if (isLoading) return <div>Loading tasks...</div>;
+    // if (error) return <div>Failed to load tasks</div>;
 
     return (
         <>
