@@ -1,21 +1,25 @@
-import { getIsTasks, KanbanBoard } from '@/widgets/KanbanBoard';
+import { KanbanBoard } from '@/widgets/KanbanBoard';
 import TasksPageStub from './components/TasksPageStub/TasksPageStub';
-import { useSelector } from 'react-redux';
 import modalObserver from '@/shared/lib/observers/modalObserver';
 import { ModalNamesEnum } from '@/shared/enums/modalNames.enum';
 import { Button, Box } from '@mantine/core';
 import { Plus } from 'lucide-react';
 import './TaskPage.scss';
+import { useTasksRealtime } from '@/entities/Task/api/useTasksRealtime';
 
 const TasksPage = () => {
-    const isTasks = useSelector(getIsTasks);
     const handleOpenTaskModal = () => {
         modalObserver.addModal(ModalNamesEnum.taskModal, { props: {} });
     };
 
+    const { data: tasks } = useTasksRealtime();
+
+    // if (isLoading) return <div>Loading tasks...</div>;
+    // if (error) return <div>Failed to load tasks</div>;
+
     return (
         <>
-            {isTasks ? (
+            {tasks?.length ? (
                 <>
                     <Box className="header-page-container ">
                         <Button
@@ -27,7 +31,7 @@ const TasksPage = () => {
                             Add tasks
                         </Button>
                     </Box>
-                    <KanbanBoard />
+                    <KanbanBoard tasks={tasks} />
                 </>
             ) : (
                 <TasksPageStub onButtonClick={handleOpenTaskModal} />

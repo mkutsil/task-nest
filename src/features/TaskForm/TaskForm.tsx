@@ -18,6 +18,9 @@ import { Check, CircleCheck } from 'lucide-react';
 import { TaskFormSchema } from './schema';
 import './TaskForm.scss';
 import { getTaskStatusColor } from '@/shared/config/taskStatusColors';
+import { useTaskUpdate } from '@/entities/Task/api/useTaskUpdate';
+import { useTaskCreate } from '@/entities/Task/api/useTaskCreate';
+
 interface TaskFormProps {
     handleModalClose: () => void;
     taskProps?: Task;
@@ -41,7 +44,8 @@ const formattedDate = now.toLocaleString('uk-UA', {
 
 const TaskForm = (props: TaskFormProps) => {
     const { handleModalClose, taskProps } = props;
-
+    const updateTask = useTaskUpdate();
+    const createTask = useTaskCreate();
     const dispatch = useAppDispatch();
     const theme = useMantineTheme();
     const newTaskId = useId();
@@ -70,9 +74,11 @@ const TaskForm = (props: TaskFormProps) => {
         };
 
         if (isEditMode) {
-            dispatch(kanbanBoardActions.editTask(newTask));
+            updateTask.mutate(newTask);
+            // dispatch(kanbanBoardActions.editTask(newTask));
         } else {
-            dispatch(kanbanBoardActions.addTask(newTask));
+            createTask.mutate(newTask);
+            // dispatch(kanbanBoardActions.addTask(newTask));
         }
 
         handleModalClose();

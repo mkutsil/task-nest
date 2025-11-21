@@ -10,6 +10,10 @@ export const kanbanBoardSlice = createSlice({
     name: 'kanbanBoard',
     initialState,
     reducers: {
+        getTasks: (state, action: PayloadAction<Task[]>) => {
+            state.tasks = action.payload;
+        },
+
         addTask: (state, action: PayloadAction<Task>) => {
             state.tasks = [action.payload, ...state.tasks];
         },
