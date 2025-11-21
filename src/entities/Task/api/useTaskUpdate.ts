@@ -1,11 +1,16 @@
 import { updateDoc, doc } from 'firebase/firestore';
 import { useMutation } from '@tanstack/react-query';
 import { db } from '@/app/firebase/config';
-import { Task } from '../model/types/task';
+
+type UpdateTaskPayload = {
+    id: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    data: Partial<Record<string, any>>;
+};
 
 export const useTaskUpdate = () =>
     useMutation({
-        mutationFn: async (task: Task) => {
-            await updateDoc(doc(db, 'tasks', task.id), task);
+        mutationFn: async ({ id, data }: UpdateTaskPayload) => {
+            await updateDoc(doc(db, 'tasks', id), data);
         },
     });

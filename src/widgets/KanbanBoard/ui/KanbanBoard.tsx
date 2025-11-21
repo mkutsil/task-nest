@@ -1,6 +1,5 @@
 import { SimpleGrid } from '@mantine/core';
 import { Column } from '@/entities/Column';
-import { useDispatch } from 'react-redux';
 import { useMemo, useState } from 'react';
 import { DndContext, DragOverlay } from '@dnd-kit/core';
 import { Task, TaskStatusEnum } from '@/entities/Task';
@@ -17,8 +16,7 @@ interface KanbanBoardProps {
 
 export const KanbanBoard = (props: KanbanBoardProps) => {
     const { tasks } = props;
-    const dispatch = useDispatch();
-    const [activeTaskId, setActiveTaskId] = useState(null);
+    const [activeTaskId, setActiveTaskId] = useState('');
     // const todoTasks = useSelector(getTodoKanbanTasks);
     const todoTasks = tasks.filter(task => task.status === TaskStatusEnum.TODO);
     const inProgressTasks = tasks.filter(task => task.status === TaskStatusEnum.IN_PROGRESS);
@@ -40,16 +38,12 @@ export const KanbanBoard = (props: KanbanBoardProps) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleDragEnd = (event: any) => {
         const { active, over } = event;
-        setActiveTaskId(null);
 
         updateTask.mutate({
-            id: active.id,
-            status: active.status,
-
-            title: 'string',
-            description: 'string',
-            createdAt: 'string',
-            updatedAt: 'string',
+            id: activeTask?.id || '' || active.id,
+            data: {
+                status: activeTask?.status,
+            },
         });
 
         // dispatch(
